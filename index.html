@@ -1,199 +1,418 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8" />
-    <title>粒子随心动画</title>
+    <title>OS等项目开发和交流社区</title>
     <script src="http://cdn.sucai8.cn/cdn/jquery/jquery-1.10.2.js"></script>
     <style>
-      body {
-        overflow: hidden;
-        margin: 0;
-      }
+        body {
+            margin: 0;
+            background: linear-gradient(to bottom, #f0f0f0, #ccc);
+        }
 
-      .twitter:hover a {
-        transform: rotate(-45deg) scale(1.05);
-      }
-      .twitter:hover i {
-        color: #21c2ff;
-      }
-      .twitter a {
-        bottom: -40px;
-        right: -75px;
-        transform: rotate(-45deg);
-      }
-      .twitter i {
-        bottom: 7px;
-        right: 7px;
-        color: #00aced;
-      }
+       .twitter:hover a {
+            transform: rotate(-45deg) scale(1.05);
+        }
 
-      .social-icon a {
-        position: absolute;
-        background: white;
-        color: white;
-        box-shadow: -1px -1px 20px 0px rgba(0, 0, 0, 0.3);
-        display: inline-block;
-        width: 150px;
-        height: 80px;
-        transform-origin: 50% 50%;
-        transition: 0.15s ease-out;
-      }
-      .social-icon i {
-        position: absolute;
-        pointer-events: none;
-        z-index: 1000;
-        transition: 0.15s ease-out;
-      }
+       .twitter:hover i {
+            color: #21c2ff;
+        }
 
-      .youtube:hover a {
-        transform: rotate(45deg) scale(1.05);
-      }
-      .youtube:hover i {
-        color: #ec4c44;
-      }
-      .youtube a {
-        bottom: -40px;
-        left: -75px;
-        transform: rotate(45deg);
-      }
-      .youtube i {
-        bottom: 7px;
-        left: 7px;
-        color: #e62117;
-      }
+       .twitter a {
+            bottom: -40px;
+            right: -75px;
+            transform: rotate(-45deg);
+        }
+
+       .twitter i {
+            bottom: 7px;
+            right: 7px;
+            color: #00aced;
+        }
+
+       .social-icon a {
+            position: absolute;
+            background: white;
+            color: white;
+            box-shadow: -1px -1px 20px 0px rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            width: 150px;
+            height: 80px;
+            transform-origin: 50% 50%;
+            transition: 0.15s ease-out;
+        }
+
+       .social-icon i {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1000;
+            transition: 0.15s ease-out;
+        }
+
+       .youtube:hover a {
+            transform: rotate(45deg) scale(1.05);
+        }
+
+       .youtube:hover i {
+            color: #ec4c44;
+        }
+
+       .youtube a {
+            bottom: -40px;
+            left: -75px;
+            transform: rotate(45deg);
+        }
+
+       .youtube i {
+            bottom: 7px;
+            left: 7px;
+            color: #e62117;
+        }
+
+        /* 导航栏样式 */
+       .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            z-index: 1000;
+        }
+
+       .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+       .navbar li {
+            margin: 0 10px;
+        }
+
+       .navbar a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+       .welcome-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 100;
+        }
+
+        /* 添加样式来定位文本、图片、按钮和链接 */
+       .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 100;
+            display: none;
+        }
+
+       .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: inline-block;
+            margin: 10px;
+        }
+
+       .button-container {
+            margin-top: 20px;
+        }
+
+       .button {
+            background-color: #00bdff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+       .link {
+            color: #00bdff;
+            text-decoration: none;
+        }
+
+        /* 项目分类样式 */
+       .project-section {
+            margin-bottom: 40px;
+        }
+
+       .project-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+       .project-description {
+            margin-bottom: 20px;
+        }
+
+        /* 为Plain项目内容添加可滚动样式 */
+       .plain-content-scroll {
+            max-height: 80vh; /* 设置最大高度为视口高度的80% */
+            overflow-y: auto; /* 垂直方向自动滚动 */
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <canvas></canvas>
 
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <ul>
+            <li><a href="#" data-project="welcome">欢迎</a></li>
+            <li><a href="#" data-project="plain">Plain 项目</a></li>
+            <li><a href="#" data-project="project1">VMwork 虚拟机</a></li>
+            <li><a href="#" data-project="project2">关于</a></li>
+        </ul>
+    </div>
+
+    <!-- 欢迎屏幕 -->
+    <div class="welcome-screen" id="welcome-content">
+        <h1>欢迎来到 OS 等项目开发和交流社区</h1>
+        <p>这里汇聚了各种有趣的项目，点击上方菜单查看详情</p>
+        <button onclick="showContent('welcome')">开始探索</button>
+    </div>
+
+
+    <div class="content" id="plain-content">
+        <!-- Plain 项目 -->
+        <div class="project-section plain-content-scroll">
+            <h1>Plain 项目</h1>
+            <p>这是一个纯汇编自制操作系统。以下是更多介绍内容：</p>
+            <ul>
+                <li>完全由nasm编写</li>
+                <li>不基于任何其他内核</li>
+                <li>使用自制文件系统(伪)</li>
+            </ul>
+
+            <div class="image-container">
+                <img src="run.png" alt="运行图片" />
+                <img src="run2.png" alt="运行图片" />
+            </div>
+
+            <div class="button-container">
+                <button class="button">了解更多</button>
+                <a href="https://github.com/linhhanpy/Plain-OS" class="link">Github链接</a>
+                <a href="https://blog.csdn.net/linhhanpy/category_12961299.html" class="link">CSDN专栏</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" id="project1-content">
+        <!-- VMwork 虚拟机 -->
+        <div class="project-section project1-content-scroll">
+            <h1>VMwork 虚拟机</h1>
+            <p>自制虚拟机</p>
+            <ul>
+                <li>由C++编写，功能非常有限，</li>
+                <li>只能运行初代HanOS</li>
+                <li>代码量不少，但是屎山</li>
+            </ul>
+
+            <div class="image-container">
+                <img src="VM.png" alt="运行图片" />
+            </div>
+
+            <div class="button-container">
+                <button class="button">了解更多</button>
+                <a href="https://github.com/linhhanpy/VMwork" class="link">Github链接</a>
+                <a href="https://blog.csdn.net/linhhanpy/category_12885691.html" class="link">CSDN专栏</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" id="project2-content">
+        <!-- 项目 2 -->
+        <div class="project-section">
+            <h2 class="project-title">关于</h2>
+            <p class="project-description">关于我们很垃圾的一些开源项目</p>
+            <li>贡献者：lhhasm, resfz</li>
+            <li>畜种生，还是太菜了</li>
+            <li>赶不上国产小学生自制操作系统大军</li>
+            <a href="https://github.com/linhhanpy/" class="link">我们Github团队 </a>
+            <a href="https://blog.csdn.net/linhhanpy/" class="link"> CSDN</a>
+        </div>
+    </div>
+
     <script>
-      "use strict";
+        "use strict";
 
-      // Initial Setup
-      var canvas = document.querySelector("canvas");
-      var c = canvas.getContext("2d");
+        function showContent(project) {
+            const welcomeContent = document.getElementById('welcome-content');
+            const project1Content = document.getElementById('project1-content');
+            const project2Content = document.getElementById('project2-content');
+            const plainContent = document.getElementById('plain-content');
 
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
+            // 隐藏所有内容容器
+            [welcomeContent, project1Content, project2Content, plainContent].forEach(content => {
+                content.style.display = 'none';
+            });
 
-      // Variables
-      var mouse = {
-        x: innerWidth / 2,
-        y: innerHeight / 2 - 80,
-      };
+            if (project === 'welcome') {
+                welcomeContent.style.display = 'block';
+            } else if (project === 'plain') {
+                plainContent.style.display = 'block';
+            } else if (project === 'project1') {
+                project1Content.style.display = 'block';
+            } else if (project === 'project2') {
+                project2Content.style.display = 'block';
+            }
+        }
 
-      var colors = ["#00bdff", "#4d39ce", "#088eff"];
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbarLinks = document.querySelectorAll('.navbar a');
+            // 初始显示欢迎内容
+            showContent('welcome'); 
+            navbarLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const project = this.dataset.project;
+                    showContent(project);
+                });
+            });
+        });
 
-      // Event Listeners
-      addEventListener("mousemove", function (event) {
-        mouse.x = event.clientX;
-        mouse.y = event.clientY;
-      });
+        // Initial Setup
+        var canvas = document.querySelector("canvas");
+        var c = canvas.getContext("2d");
 
-      addEventListener("resize", function () {
         canvas.width = innerWidth;
         canvas.height = innerHeight;
 
-        init();
-      });
-
-      // Utility Functions
-      function randomIntFromRange(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-      }
-
-      function randomColor(colors) {
-        return colors[Math.floor(Math.random() * colors.length)];
-      }
-
-      // Objects
-      function Particle(x, y, radius, color) {
-        var _this = this;
-
-        var distance = randomIntFromRange(50, 120);
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
-        this.radians = Math.random() * Math.PI * 2;
-        this.velocity = 0.05;
-        this.distanceFromCenter = {
-          x: distance,
-          y: distance,
-        };
-        this.prevDistanceFromCenter = {
-          x: distance,
-          y: distance,
-        };
-        this.lastMouse = { x: x, y: y };
-
-        this.update = function () {
-          var lastPoint = { x: _this.x, y: _this.y };
-          // Move points over time
-          _this.radians += _this.velocity;
-
-          // Drag effect
-          _this.lastMouse.x += (mouse.x - _this.lastMouse.x) * 0.05;
-          _this.lastMouse.y += (mouse.y - _this.lastMouse.y) * 0.05;
-
-          // Circular Motion
-          _this.distanceFromCenter.x =
-            _this.prevDistanceFromCenter.x + Math.sin(_this.radians) * 100;
-          _this.distanceFromCenter.y =
-            _this.prevDistanceFromCenter.x + Math.sin(_this.radians) * 100;
-
-          _this.x =
-            _this.lastMouse.x +
-            Math.cos(_this.radians) * _this.distanceFromCenter.x;
-          _this.y =
-            _this.lastMouse.y +
-            Math.sin(_this.radians) * _this.distanceFromCenter.y;
-
-          _this.draw(lastPoint);
+        // Variables
+        var mouse = {
+            x: innerWidth / 2,
+            y: innerHeight / 2 - 80,
         };
 
-        this.draw = function (lastPoint) {
-          c.beginPath();
-          c.strokeStyle = _this.color;
-          c.lineWidth = _this.radius;
-          c.moveTo(lastPoint.x, lastPoint.y);
-          c.lineTo(_this.x, _this.y);
-          c.stroke();
-          c.closePath();
-        };
-      }
+        var colors = ["#00bdff", "#4d39ce", "#088eff"];
 
-      // Implementation
-      var particles = undefined;
-      function init() {
-        particles = [];
-
-        for (var i = 0; i < 50; i++) {
-          var radius = Math.random() * 2 + 1;
-          particles.push(
-            new Particle(
-              canvas.width / 2,
-              canvas.height / 2,
-              radius,
-              randomColor(colors)
-            )
-          );
-        }
-      }
-
-      // Animation Loop
-      function animate() {
-        requestAnimationFrame(animate);
-        c.fillStyle = "rgba(255, 255, 255, 0.05)";
-        c.fillRect(0, 0, canvas.width, canvas.height);
-
-        particles.forEach(function (particle) {
-          particle.update();
+        // Event Listeners
+        addEventListener("mousemove", function (event) {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
         });
-      }
 
-      init();
-      animate();
+        addEventListener("resize", function () {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+
+            init();
+        });
+
+        // Utility Functions
+        function randomIntFromRange(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        function randomColor(colors) {
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Objects
+        function Particle(x, y, radius, color) {
+            var _this = this;
+
+            var distance = randomIntFromRange(50, 120);
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+            this.radians = Math.random() * Math.PI * 2;
+            this.velocity = 0.05;
+            this.distanceFromCenter = {
+                x: distance,
+                y: distance,
+            };
+            this.prevDistanceFromCenter = {
+                x: distance,
+                y: distance,
+            };
+            this.lastMouse = { x: x, y: y };
+
+            this.update = function () {
+                var lastPoint = { x: _this.x, y: _this.y };
+                // Move points over time
+                _this.radians += _this.velocity;
+
+                // Drag effect
+                _this.lastMouse.x += (mouse.x - _this.lastMouse.x) * 0.05;
+                _this.lastMouse.y += (mouse.y - _this.lastMouse.y) * 0.05;
+
+                // Circular Motion
+                _this.distanceFromCenter.x =
+                    _this.prevDistanceFromCenter.x + Math.sin(_this.radians) * 100;
+                _this.distanceFromCenter.y =
+                    _this.prevDistanceFromCenter.x + Math.sin(_this.radians) * 100;
+
+                _this.x =
+                    _this.lastMouse.x +
+                    Math.cos(_this.radians) * _this.distanceFromCenter.x;
+                _this.y =
+                    _this.lastMouse.y +
+                    Math.sin(_this.radians) * _this.distanceFromCenter.y;
+
+                _this.draw(lastPoint);
+            };
+
+            this.draw = function (lastPoint) {
+                c.beginPath();
+                c.strokeStyle = _this.color;
+                c.lineWidth = _this.radius;
+                c.moveTo(lastPoint.x, lastPoint.y);
+                c.lineTo(_this.x, _this.y);
+                c.stroke();
+                c.closePath();
+            };
+        }
+
+        // Implementation
+        var particles = undefined;
+        function init() {
+            particles = [];
+
+            for (var i = 0; i < 50; i++) {
+                var radius = Math.random() * 2 + 1;
+                particles.push(
+                    new Particle(
+                        canvas.width / 2,
+                        canvas.height / 2,
+                        radius,
+                        randomColor(colors)
+                    )
+                );
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            c.fillStyle = "rgba(160, 160, 160, 0.05)";
+            c.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(function (particle) {
+                particle.update();
+            });
+        }
+
+        init();
+        animate();
     </script>
-  </body>
+</body>
+
 </html>
